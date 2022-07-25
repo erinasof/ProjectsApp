@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:local="clr-namespace:ProjectsApp"
+             x:Class="ProjectsApp.Views.ProjectsListPage" Title="Список проектов">
+    <ContentPage.Resources>
+        <local:DateTimeToDateStringConverter x:Key="DateTimeToDateStringConverter" />
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout>
+            <Button Text="Добавить" Command="{Binding CreateCommand}" />
+            <SearchBar x:Name="CountriesSearchBar" Text="{Binding SearchText, Mode=TwoWay}">
+                <SearchBar.Behaviors>
+                    <xct:EventToCommandBehavior EventName="TextChanged" Command="{Binding SearchCommand}"/>
+                </SearchBar.Behaviors>
+            </SearchBar>
+            <StackLayout Orientation="Horizontal">
+                <CheckBox IsChecked="{Binding StartDateIsChecked}"/>
+                <Label Text="Начат не раньше: " FontSize="Small" TextColor="Gray" VerticalTextAlignment="Center"/>
+                <DatePicker Date="{Binding MinStartDate, Mode=TwoWay}"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <CheckBox IsChecked="{Binding FinishDateIsChecked}"/>
+                <Label Text="Закончен не позже: " FontSize="Small" TextColor="Gray" VerticalTextAlignment="Center"/>
+                <DatePicker Date="{Binding MaxFinishDate, Mode=TwoWay}"/>
+            </StackLayout>
+            <ListView x:Name="projectsList" ItemsSource="{Binding Projects}" SelectedItem="{Binding SelectedProject, Mode=TwoWay}" HasUnevenRows="True">
+                <ListView.Resources>
+                    <GridLength x:Key="NameColumnWidth">30*</GridLength>
+                    <GridLength x:Key="PriorityColumnWidth">10*</GridLength>
+                    <GridLength x:Key="StartDateColumnWidth">20*</GridLength>
+                    <GridLength x:Key="FinishDateColumnWidth">20*</GridLength>
+                </ListView.Resources>
+                <ListView.Header>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="{Binding Source={StaticResource NameColumnWidth}}" />
+                            <ColumnDefinition Width="{Binding Source={StaticResource PriorityColumnWidth}}" />
+                            <ColumnDefinition Width="{Binding Source={StaticResource StartDateColumnWidth}}" />
+                            <ColumnDefinition Width="{Binding Source={StaticResource FinishDateColumnWidth}}" />
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" Text="Имя" BackgroundColor="AliceBlue" >
+                            <Button.Behaviors>
+                                <xct:EventToCommandBehavior EventName="Clicked" Command="{Binding NameSortingCommand}"/>
+                            </Button.Behaviors>
+                        </Button>
+                        <Button Grid.Column="1" Text="!" BackgroundColor="AliceBlue" >
+                            <Button.Behaviors>
+                                <xct:EventToCommandBehavior EventName="Clicked" Command="{Binding PrioritySortingCommand}"/>
+                            </Button.Behaviors>
+                        </Button>
+                        <Button Grid.Column="2" Text="Начало" BackgroundColor="AliceBlue" >
+                            <Button.Behaviors>
+                                <xct:EventToCommandBehavior EventName="Clicked" Command="{Binding StartDateSortingCommand}"/>
+                            </Button.Behaviors>
+                        </Button>
+                        <Button Grid.Column="3" Text="Конец" BackgroundColor="AliceBlue" >
+                            <Button.Behaviors>
+                                <xct:EventToCommandBehavior EventName="Clicked" Command="{Binding FinishDateSortingCommand}"/>
+                            </Button.Behaviors>
+                        </Button>
+                    </Grid>
+                </ListView.Header>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <Frame BackgroundColor="LightGray" HasShadow="True" BorderColor="White">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="{Binding Source={StaticResource NameColumnWidth}}"/>
+                                            <ColumnDefinition Width="{Binding Source={StaticResource PriorityColumnWidth}}"/>
+                                            <ColumnDefinition Width="{Binding Source={StaticResource StartDateColumnWidth}}"/>
+                                            <ColumnDefinition Width="{Binding Source={StaticResource FinishDateColumnWidth}}"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" Text="{Binding Name}" FontSize="Medium" TextColor="Black"/>
+                                        <Label Grid.Column="1" Text="{Binding Priority}" FontSize="Medium" TextColor="Red" />
+                                        <Label Grid.Column="2" FontSize="Small" Text="{Binding StartDate, Converter={StaticResource DateTimeToDateStringConverter}}"/>
+                                        <Label Grid.Column="3" FontSize="Small" Text="{Binding FinishDate, Converter={StaticResource DateTimeToDateStringConverter}}"/>
+                                    </Grid>
+                                </Frame>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

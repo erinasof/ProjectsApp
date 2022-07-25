@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             
+             x:Class="ProjectsApp.Views.ProjectEmployeesListPage" Title="Полный список связей">
+    <ContentPage.Content>
+        <StackLayout>
+            <Button Text="Добавить" Command="{Binding CreateCommand}" />
+            <ListView x:Name="projectEmployeesList" ItemsSource="{Binding ProjectEmployees}" SelectedItem="{Binding SelectedProjectEmployee, Mode=TwoWay}" HasUnevenRows="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <Frame BackgroundColor="LightGray" HasShadow="True" BorderColor="White">
+                                    <StackLayout>
+                                        <Label Text="Проект" FontSize="Small" TextColor="Gray"/>
+                                        <Label Text="{Binding SelectedProject}" FontSize="Medium" TextColor="Black"/>
+
+                                        <Label Text="Сотрудник" FontSize="Small" TextColor="Gray"/>
+                                        <Label Text="{Binding SelectedEmployee}" FontSize="Medium" TextColor="Black" />
+
+                                    </StackLayout>
+                                </Frame>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
+    

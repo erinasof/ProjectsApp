@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ProjectsApp.Views.CompaniesListPage" Title="Список компаний">
+    <ContentPage.Content>
+        <StackLayout>
+            <Button Text="Добавить" Command="{Binding CreateCommand}" />
+            <ListView x:Name="companiesList" ItemsSource="{Binding Companies}"
+              SelectedItem="{Binding SelectedCompany, Mode=TwoWay}" HasUnevenRows="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <Frame BackgroundColor="LightGray" HasShadow="True" BorderColor="White">
+                                    <StackLayout>
+                                        <Label Text="{Binding Name}" FontSize="Medium" TextColor="Black" />
+                                    </StackLayout>
+                                </Frame>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
