@@ -4,47 +4,23 @@ using System.Linq;
 using System.Text;
 using ProjectsApp.Models;
 using SQLite;
+using Microsoft.Data.Sqlite;
 
 namespace ProjectsApp.Repositories
 {
-    public class Repository
+    public class GenericRepository
     {
         private SQLiteConnection database;
-        public Repository(string databasePath)
+        public GenericRepository(string databasePath)
         {
             database = new SQLiteConnection(databasePath);
+            database.CreateCommand("PRAGMA foreign_keys = ON;").ExecuteNonQuery();
             database.CreateTable<Company>();
             database.CreateTable<Employee>();
             database.CreateTable<Project>();
             database.CreateTable<ProjectEmployee>();
         }
-        #region company
-        public IEnumerable<Company> GetCompanyItems()
-        {
-            return database.Table<Company>().ToList();
-        }
-        public Company GetCompanyItem(int id)
-        {
-            return database.Get<Company>(id);
-        }
-        public int DeleteCompanyItem(int id)
-        {
-            return database.Delete<Company>(id);
-        }
-        public int SaveCompanyItem(Company item)
-        {
-            if (item.Id != 0)
-            {
-                database.Update(item);
-                return item.Id;
-            }
-            else
-            {
-                return database.Insert(item);
-            }
-        }
-        #endregion company
-
+        
         #region employee
         public IEnumerable<Employee> GetEmployeeItems()
         {
@@ -56,12 +32,6 @@ namespace ProjectsApp.Repositories
         }
         public int DeleteEmployeeItem(int id)
         {
-            var linksOfEmployee = GetProjectEmployeeItems().Where(pe => pe.EmployeeId == id);
-            foreach (var link in linksOfEmployee)
-            {
-                database.Delete<ProjectEmployee>(link.Id);
-            }
-            
             return database.Delete<Employee>(id);
         }
         public int SaveEmployeeItem(Employee item)
@@ -89,12 +59,6 @@ namespace ProjectsApp.Repositories
         }
         public int DeleteProjectItem(int id)
         {
-            var linksOfProject = GetProjectEmployeeItems().Where(pe => pe.ProjectId == id);
-            foreach (var link in linksOfProject)
-            {
-                database.Delete<ProjectEmployee>(link.Id);
-            }
-
             return database.Delete<Project>(id);
         }
         public int SaveProjectItem(Project item)
