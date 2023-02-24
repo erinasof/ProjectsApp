@@ -1,38 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using ProjectsApp.Models.Base;
 using SQLite;
 using SQLiteNetExtensions.Attributes;
 
 namespace ProjectsApp.Models
 {
     [Table("Projects22")]
-    public class Project
+    public class Project : PKNamedEntity<int>
     {
-        [PrimaryKey, AutoIncrement, Column("_id")]
-        public int Id { get; set; }
-
-        [Column("_name")]
-        public string Name { get; set; }
-        //
         [ForeignKey(typeof(Company))]
         public int CustomerCompanyId { get; set; }
-        //[ManyToOne("_customer_company_id")]
-        //public Company CustomerCompany { get; set; }
-        //
+
         [ForeignKey(typeof(Company))]
         public int ExecutorCompanyId { get; set; }
-        //[ManyToOne("_executor_company_id")]
-       // public Company ExecutorCompany { get; set; }
-        //
+
         [ForeignKey(typeof(Employee))]
         public int HeadId { get; set; }
-        //[ManyToOne("_head_id")]
-        //public Employee Head { get; set; }
         
         [ManyToMany(typeof(ProjectEmployee), CascadeOperations = CascadeOperation.All)]
         public List<Employee> Employees { get; set; }
-
 
         [Column("_start_date")]
         public DateTime StartDate { get; set; }
@@ -49,9 +36,5 @@ namespace ProjectsApp.Models
             FinishDate = DateTime.Today;
         }
 
-        public override string ToString()
-        {
-            return Name;
-        }
     }
 }

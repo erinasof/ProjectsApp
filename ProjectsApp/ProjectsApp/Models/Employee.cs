@@ -1,22 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using ProjectsApp.Models.Base;
 using SQLite;
 using SQLiteNetExtensions.Attributes;
 
 namespace ProjectsApp.Models
 {
     [Table("Employees22")]
-    public class Employee
+    public class Employee : PKNamedEntity<int>
     {
-        [PrimaryKey, AutoIncrement, Column("_id")]
-        public int Id { get; set; }
-
         [Column("_last_name")]
         public string LastName { get; set; }
-
-        [Column("_name")]
-        public string Name { get; set; }
 
         [Column("_patronymic")]
         public string Patronymic { get; set; }
