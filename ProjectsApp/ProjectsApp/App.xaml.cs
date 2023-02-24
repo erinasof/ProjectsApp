@@ -13,7 +13,7 @@ namespace ProjectsApp
 {
     public partial class App : Application
     {
-        public static IServiceProvider ServiceProvider { get; set; }
+        private static IServiceProvider ServiceProvider;
 
         public const string DATABASE_NAME = "projects.db";
 
@@ -59,8 +59,14 @@ namespace ProjectsApp
             ServiceProvider = services.BuildServiceProvider();
         }
 
-        public static BaseViewModel GetViewModel<TViewModel>() 
-            where TViewModel : BaseViewModel => ServiceProvider.GetService<TViewModel>();
+        public static BaseViewModel GetViewModel<TViewModel>()
+           where TViewModel : BaseViewModel => ServiceProvider.GetService<TViewModel>();
+
+
+        public static T GetService<T>()
+        {
+            return ServiceProvider.GetService<T>();
+        }
 
         protected override void OnStart()
         {

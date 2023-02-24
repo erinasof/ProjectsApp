@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using ProjectsApp.Models;
 using SQLite;
-using Microsoft.Data.Sqlite;
 
 namespace ProjectsApp.Repositories
 {
@@ -20,14 +16,6 @@ namespace ProjectsApp.Repositories
             database.CreateTable<Project>();
             database.CreateTable<ProjectEmployee>();
         }
-
-        //FixMe: need change to use CompanyService
-        #region company
-        public IEnumerable<Company> GetCompanyItems()
-        {
-            return database.Table<Company>().ToList();
-        }
-        #endregion company
 
         #region employee
         public IEnumerable<Employee> GetEmployeeItems()

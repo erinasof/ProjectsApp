@@ -1,7 +1,9 @@
 ﻿using ProjectsApp.Models;
+using ProjectsApp.Services;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ProjectsApp.ViewModels
 {
@@ -20,8 +22,8 @@ namespace ProjectsApp.ViewModels
         public ProjectViewModel(Project project = null)
         {
             Project = project ?? new Project();
-            Employees = new ObservableCollection<Employee>( App.Database.GetEmployeeItems());
-            Companies = new ObservableCollection<Company>(App.Database.GetCompanyItems());
+            Employees = new ObservableCollection<Employee>(App.Database.GetEmployeeItems());
+            Companies = new ObservableCollection<Company>(App.GetService<ICompanyService>().GetCompanyItems());
 
             var empIds = App.Database.GetProjectEmployeeItems().Where(pe => pe.ProjectId == Project.Id).Select(pe => pe.EmployeeId);
 

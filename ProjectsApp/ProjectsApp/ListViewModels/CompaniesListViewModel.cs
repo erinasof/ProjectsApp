@@ -17,7 +17,7 @@ namespace ProjectsApp.ViewModels
 
         public CompaniesListViewModel()
         {
-            companyService = App.ServiceProvider.GetService<ICompanyService>();
+            companyService = App.GetService<ICompanyService>();
             Companies = new ObservableCollection<CompanyViewModel>();
             ReloadTable();
             CreateCommand = new Command(CreateCompany);
