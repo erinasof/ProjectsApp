@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using SQLite;
+using SQLiteNetExtensions.Attributes;
 
 namespace ProjectsApp.Models
 {
-    [Table("Employees")]
+    [Table("Employees22")]
     public class Employee
     {
         [PrimaryKey, AutoIncrement, Column("_id")]
@@ -22,6 +23,9 @@ namespace ProjectsApp.Models
 
         [Unique, Column("_email")]
         public string Email { get; set; }
+
+        [ManyToMany(typeof(ProjectEmployee), CascadeOperations = CascadeOperation.All)]
+        public List<Project> Projects { get; set; }
 
         public override string ToString()
         {

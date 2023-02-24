@@ -5,7 +5,7 @@ using SQLiteNetExtensions.Attributes;
 
 namespace ProjectsApp.Models
 {
-    [Table("Companies")]
+    [Table("Companies22")]
     public class Company
     {
         [PrimaryKey, AutoIncrement, Column("_id")]

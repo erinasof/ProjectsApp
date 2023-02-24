@@ -6,7 +6,7 @@ using SQLiteNetExtensions.Attributes;
 
 namespace ProjectsApp.Models
 {
-    [Table("Projects")]
+    [Table("Projects22")]
     public class Project
     {
         [PrimaryKey, AutoIncrement, Column("_id")]
@@ -29,9 +29,8 @@ namespace ProjectsApp.Models
         public int HeadId { get; set; }
         //[ManyToOne("_head_id")]
         //public Employee Head { get; set; }
-
-
-        [ManyToMany(typeof(ProjectEmployee))]
+        
+        [ManyToMany(typeof(ProjectEmployee), CascadeOperations = CascadeOperation.All)]
         public List<Employee> Employees { get; set; }
 
 
