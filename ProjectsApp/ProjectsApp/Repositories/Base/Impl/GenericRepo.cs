@@ -5,37 +5,37 @@ using System.Collections.Generic;
 
 namespace ProjectsApp.Repositories.Impl
 {
-    class CompanyRepository : IRepository<Company>
+    public abstract class GenericRepo<T, TKey> : IRepository<T, TKey> where T : PKEntity<TKey>, new()
     {
         private readonly SQLiteConnection dbConnect;
 
-        public CompanyRepository(ISQLiteService db)
+        public GenericRepo(ISQLiteService db)
         {
             dbConnect = db.GetConnection(App.DATABASE_NAME);
             dbConnect.CreateTable<Company>();
         }
 
-        public void Add(Company entity)
+        public void Add(T entity)
         {
             dbConnect.Insert(entity);
         }
 
-        public void Delete(Company entity)
+        public void Delete(T entity)
         {
             dbConnect.Delete(entity);
         }
 
-        public IEnumerable<Company> GetAll()
+        public IEnumerable<T> GetAll()
         {
-            return dbConnect.Table<Company>().ToList();
+            return dbConnect.Table<T>().ToList();
         }
 
-        public Company GetOne(int id)
+        public T GetOne(TKey id)
         {
-            return dbConnect.Get<Company>(id);
+            return dbConnect.Get<T>(id);
         }
 
-        public void Update(Company entity)
+        public void Update(T entity)
         {
             dbConnect.Update(entity);
         }

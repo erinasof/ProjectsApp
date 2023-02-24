@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using ProjectsApp.Models;
+using System.Collections.Generic;
 
 namespace ProjectsApp.Repositories
 {
-    public interface IRepository<T>
+    public interface IRepository<T, TKey> where T : PKEntity<TKey>
     {
         #region Methods
-        T GetOne(int id);
+        T GetOne(TKey id);
         IEnumerable<T> GetAll();
         void Add(T entity);
         void Update(T entity);
