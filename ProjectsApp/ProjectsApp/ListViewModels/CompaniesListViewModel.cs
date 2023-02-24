@@ -1,4 +1,6 @@
-﻿using ProjectsApp.Views;
+﻿using Microsoft.Extensions.DependencyInjection;
+using ProjectsApp.Services;
+using ProjectsApp.Views;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Xamarin.Forms;
@@ -11,8 +13,11 @@ namespace ProjectsApp.ViewModels
 
         private CompanyViewModel selectedCompany;
 
+        private readonly ICompanyService companyService;
+
         public CompaniesListViewModel()
         {
+            companyService = App.ServiceProvider.GetService<ICompanyService>();
             Companies = new ObservableCollection<CompanyViewModel>();
             ReloadTable();
             CreateCommand = new Command(CreateCompany);
@@ -25,7 +30,7 @@ namespace ProjectsApp.ViewModels
         public void ReloadTable()
         {
             Companies.Clear();
-            Companies.Add(App.Database.GetCompanyItems().Select(x => new CompanyViewModel(x) { ListViewModel = this }));
+            Companies.Add(companyService.GetCompanyItems().Select(x => new CompanyViewModel(x) { ListViewModel = this }));
         }
 
         public CompanyViewModel SelectedCompany
@@ -62,7 +67,7 @@ namespace ProjectsApp.ViewModels
                     Companies.Add(company);
                 }
 
-                App.Database.SaveCompanyItem(company.Company);
+                companyService.SaveCompanyItem(company.Company);
             }
             else
             {
@@ -77,7 +82,7 @@ namespace ProjectsApp.ViewModels
             if (companyObject is CompanyViewModel company)
             {
                 Companies.Remove(company);
-                App.Database.DeleteCompanyItem(company.Id);
+                companyService.DeleteCompanyItem(company.Id);
             }
             Back();
         }

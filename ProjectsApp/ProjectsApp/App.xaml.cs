@@ -1,23 +1,29 @@
 ﻿using System;
-using ProjectsApp.Views;
 using ProjectsApp.Repositories;
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 using System.IO;
+using ProjectsApp.Services;
+using ProjectsApp.Services.Impl;
+using ProjectsApp.ViewModels;
+using MvvmHelpers;
+using Microsoft.Extensions.DependencyInjection;
+using Xamarin.Forms;
 
 namespace ProjectsApp
 {
     public partial class App : Application
     {
+        public static IServiceProvider ServiceProvider { get; set; }
+
         public const string DATABASE_NAME = "projects.db";
-        public static Repository database;
-        public static Repository Database
+
+        public static GenericRepository database;
+        public static GenericRepository Database
         {
             get
             {
                 if (database == null)
                 {
-                    database = new Repository(
+                    database = new GenericRepository(
                         Path.Combine(
                             Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), DATABASE_NAME));
                 }
@@ -25,11 +31,33 @@ namespace ProjectsApp
             }
         }
 
-        public App()
+        public App(Action<IServiceCollection> addPlatformServices = null)
         {
             InitializeComponent();
+
+            SetupServices(addPlatformServices);
+
             MainPage = new NavigationPage(new MainPage());
         }
+
+        void SetupServices(Action<IServiceCollection> addPlatformServices = null)
+        {            
+            //DependencyService.Get<ISQLiteService>().GetConnectionWithCreateDatabase();
+            var services = new ServiceCollection();
+
+            // Add platform specific services
+            addPlatformServices?.Invoke(services);
+
+            services.AddTransient<CompaniesListViewModel>();
+
+            // Add core services
+            services.AddSingleton<ICompanyService, CompanyService>();
+
+            ServiceProvider = services.BuildServiceProvider();
+        }
+
+        public static BaseViewModel GetViewModel<TViewModel>() 
+            where TViewModel : BaseViewModel => ServiceProvider.GetService<TViewModel>();
 
         protected override void OnStart()
         {
