@@ -12,7 +12,6 @@ namespace ProjectsApp.ViewModels
         public ObservableCollection<Company> Companies { get; set; }
         public Project Project { get; private set; }
 
-        private ProjectsListViewModel lvm => ListViewModel as ProjectsListViewModel;
         private Employee _selectedEmployee;
         private Company _selectedExecutorCompany;
         private Company _selectedCustomerCompany;

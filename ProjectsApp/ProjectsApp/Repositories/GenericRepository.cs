@@ -10,7 +10,7 @@ namespace ProjectsApp.Repositories
 {
     public class GenericRepository
     {
-        private SQLiteConnection database;
+        private readonly SQLiteConnection database;
         public GenericRepository(string databasePath)
         {
             database = new SQLiteConnection(databasePath);
@@ -20,7 +20,15 @@ namespace ProjectsApp.Repositories
             database.CreateTable<Project>();
             database.CreateTable<ProjectEmployee>();
         }
-        
+
+        //FixMe: need change to use CompanyService
+        #region company
+        public IEnumerable<Company> GetCompanyItems()
+        {
+            return database.Table<Company>().ToList();
+        }
+        #endregion company
+
         #region employee
         public IEnumerable<Employee> GetEmployeeItems()
         {

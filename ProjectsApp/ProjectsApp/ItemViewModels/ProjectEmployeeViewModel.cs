@@ -13,7 +13,7 @@ namespace ProjectsApp.ViewModels
         public ProjectEmployee ProjectEmployee { get; private set; }
         public ObservableCollection<Employee> Employees { get; set; }
         public ObservableCollection<Project> Projects { get; set; }
-        private ProjectEmployeesListViewModel lvm => ListViewModel as ProjectEmployeesListViewModel;
+        private ProjectEmployeesListViewModel Lvm => ListViewModel as ProjectEmployeesListViewModel;
 
         private Employee _selectedEmployee;
         private Project _selectedProject;
@@ -63,7 +63,7 @@ namespace ProjectsApp.ViewModels
             }
         }
 
-        private bool IsUnique => lvm.ProjectEmployees.FirstOrDefault(pe =>
+        private bool IsUnique => Lvm.ProjectEmployees.FirstOrDefault(pe =>
                                                    pe.SelectedProject.Id == SelectedProject.Id &&
                                                    pe.SelectedEmployee.Id == SelectedEmployee.Id &&
                                                    pe.Id != Id) == null;
