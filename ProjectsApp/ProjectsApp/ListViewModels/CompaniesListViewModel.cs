@@ -82,7 +82,7 @@ namespace ProjectsApp.ViewModels
             if (companyObject is CompanyViewModel company)
             {
                 Companies.Remove(company);
-                companyService.DeleteCompanyItem(company.Id);
+                companyService.DeleteCompanyItem(company.Company);
             }
             Back();
         }

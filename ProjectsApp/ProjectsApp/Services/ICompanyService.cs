@@ -9,8 +9,8 @@ namespace ProjectsApp.Services
 
         Company GetCompanyItem(int id);
 
-        int DeleteCompanyItem(int id);
+        void DeleteCompanyItem(Company company);
 
-        int SaveCompanyItem(Company item);
+        void SaveCompanyItem(Company item);
     }
 }

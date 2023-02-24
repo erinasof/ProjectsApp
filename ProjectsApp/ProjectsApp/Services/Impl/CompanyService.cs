@@ -1,6 +1,6 @@
 ﻿
 using ProjectsApp.Models;
-using SQLite;
+using ProjectsApp.Repositories.Impl;
 using System.Collections.Generic;
 
 namespace ProjectsApp.Services.Impl
@@ -8,39 +8,37 @@ namespace ProjectsApp.Services.Impl
     class CompanyService : ICompanyService
     {
 
-        private readonly SQLiteConnection dbConnect;
+        private readonly CompanyRepository repository;
 
-        public CompanyService(ISQLiteService db)
+        public CompanyService(CompanyRepository repository)
         {
-            dbConnect = db.GetConnection(App.DATABASE_NAME);
-            dbConnect.CreateTable<Company>();
+            this.repository = repository;
         }
 
-        public int DeleteCompanyItem(int id)
+        public void DeleteCompanyItem(Company company)
         {
-            return dbConnect.Delete<Company>(id);
+            repository.Delete(company);
         }
 
         public Company GetCompanyItem(int id)
         {
-            return dbConnect.Get<Company>(id);
+            return repository.GetOne(id);
         }
 
         public IEnumerable<Company> GetCompanyItems()
         {
-            return dbConnect.Table<Company>().ToList();
+            return repository.GetAll();
         }
 
-        public int SaveCompanyItem(Company item)
+        public void SaveCompanyItem(Company item)
         {
             if (item.Id != 0)
             {
-                dbConnect.Update(item);
-                return item.Id;
+                repository.Update(item);
             }
             else
             {
-                return dbConnect.Insert(item);
+                repository.Add(item);
             }
         }
 

@@ -7,6 +7,7 @@ using ProjectsApp.ViewModels;
 using MvvmHelpers;
 using Microsoft.Extensions.DependencyInjection;
 using Xamarin.Forms;
+using ProjectsApp.Repositories.Impl;
 
 namespace ProjectsApp
 {
@@ -52,6 +53,8 @@ namespace ProjectsApp
 
             // Add core services
             services.AddSingleton<ICompanyService, CompanyService>();
+            // Add core repositories
+            services.AddSingleton<CompanyRepository>();
 
             ServiceProvider = services.BuildServiceProvider();
         }

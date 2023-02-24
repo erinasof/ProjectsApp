@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using ProjectsApp.Models;
-using System.Text;
+﻿using ProjectsApp.Models;
 
 namespace ProjectsApp.ViewModels
 {
     public class CompanyViewModel : ItemViewModel
     {
-        private CompaniesListViewModel lvm => ListViewModel as CompaniesListViewModel;
 
         public Company Company { get; private set; }
 
