@@ -156,7 +156,7 @@ namespace ProjectsApp.ViewModels
 
         private void ReloadTable()
         {
-            AllProjects.SetCollection(App.GetService<IProjectService>().GetItems().Select(x => new ProjectViewModel(x) { ListViewModel = this }));
+            AllProjects.SetCollection(projectService.GetItems().Select(x => new ProjectViewModel(x) { ListViewModel = this }));
             Projects.SetCollection(AllProjects);
             ToSearchText();
         }

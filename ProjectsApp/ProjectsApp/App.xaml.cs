@@ -1,10 +1,7 @@
 ﻿using System;
 using ProjectsApp.Repositories;
-using System.IO;
 using ProjectsApp.Services;
 using ProjectsApp.Services.Impl;
-using ProjectsApp.ViewModels;
-using MvvmHelpers;
 using Microsoft.Extensions.DependencyInjection;
 using Xamarin.Forms;
 using ProjectsApp.Repositories.Impl;
@@ -16,21 +13,6 @@ namespace ProjectsApp
         private static IServiceProvider ServiceProvider;
 
         public const string DATABASE_NAME = "projects.db";
-
-        public static GenericRepository database;
-        public static GenericRepository Database
-        {
-            get
-            {
-                if (database == null)
-                {
-                    database = new GenericRepository(
-                        Path.Combine(
-                            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), DATABASE_NAME));
-                }
-                return database;
-            }
-        }
 
         public App(Action<IServiceCollection> addPlatformServices = null)
         {
