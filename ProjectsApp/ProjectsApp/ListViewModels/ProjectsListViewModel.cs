@@ -1,4 +1,5 @@
-﻿using ProjectsApp.Views;
+﻿using ProjectsApp.Services;
+using ProjectsApp.Views;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -26,8 +27,11 @@ namespace ProjectsApp.ViewModels
         public ICommand StartDateSortingCommand { protected set; get; }
         public ICommand FinishDateSortingCommand { protected set; get; }
 
+        private readonly IProjectService projectService;
+
         public ProjectsListViewModel()
         {
+            projectService = App.GetService<IProjectService>();
             Projects = new ObservableCollection<ProjectViewModel>();
             AllProjects = new ObservableCollection<ProjectViewModel>();
             StartDateIsChecked = false;
@@ -152,7 +156,7 @@ namespace ProjectsApp.ViewModels
 
         private void ReloadTable()
         {
-            AllProjects.SetCollection(App.Database.GetProjectItems().Select(x => new ProjectViewModel(x) { ListViewModel = this }));
+            AllProjects.SetCollection(App.GetService<IProjectService>().GetItems().Select(x => new ProjectViewModel(x) { ListViewModel = this }));
             Projects.SetCollection(AllProjects);
             ToSearchText();
         }
@@ -175,7 +179,7 @@ namespace ProjectsApp.ViewModels
                 {
                     Projects.Add(project);
                 }
-                App.Database.SaveProjectItem(project.Project);
+                projectService.SaveItem(project.Project);
             }
             else
             {
@@ -190,7 +194,7 @@ namespace ProjectsApp.ViewModels
             if (projectObject is ProjectViewModel project)
             {
                 Projects.Remove(project);
-                App.Database.DeleteProjectItem(project.Id);
+                projectService.DeleteItem(project.Project);
             }
 
             Back();

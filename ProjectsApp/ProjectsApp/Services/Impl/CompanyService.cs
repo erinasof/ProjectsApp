@@ -1,8 +1,6 @@
 ﻿
 using ProjectsApp.Models;
-using ProjectsApp.Repositories;
 using ProjectsApp.Repositories.Impl;
-using System.Collections.Generic;
 
 namespace ProjectsApp.Services.Impl
 {

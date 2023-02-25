@@ -1,11 +1,8 @@
 ﻿using ProjectsApp.Models;
+using ProjectsApp.Services;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 
 namespace ProjectsApp.ViewModels
 {
@@ -13,7 +10,7 @@ namespace ProjectsApp.ViewModels
     {
         public ObservableCollection<Project> ProjectsOfEmployee { get; set; }
         public Employee Employee { get; private set; }
-        private EmployeesListViewModel lvm => ListViewModel as EmployeesListViewModel;
+        private EmployeesListViewModel Lvm => ListViewModel as EmployeesListViewModel;
 
         public EmployeeViewModel(Employee e = null)
         {
@@ -22,7 +19,7 @@ namespace ProjectsApp.ViewModels
             var projIds = App.Database.GetProjectEmployeeItems().Where(pe => pe.EmployeeId == Employee.Id).Select(pe => pe.ProjectId);
 
             ProjectsOfEmployee = new ObservableCollection<Project>(
-                App.Database.GetProjectItems().Where(project => projIds.Contains(project.Id)));
+                App.GetService<IProjectService>().GetItems().Where(project => projIds.Contains(project.Id)));
         }
 
         public int Id
@@ -92,7 +89,7 @@ namespace ProjectsApp.ViewModels
 
         private bool EmailIsUnique()
         {
-            return lvm.Employees.FirstOrDefault(e => e.Email == Email && e.Id != Id) == null;
+            return Lvm.Employees.FirstOrDefault(e => e.Email == Email && e.Id != Id) == null;
         }
 
         public override bool IsValid => !string.IsNullOrEmpty(Name) &&

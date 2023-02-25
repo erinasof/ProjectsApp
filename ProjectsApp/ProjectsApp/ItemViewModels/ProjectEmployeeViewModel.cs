@@ -1,11 +1,7 @@
 ﻿using ProjectsApp.Models;
 using ProjectsApp.Services;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
 
 namespace ProjectsApp.ViewModels
 {
@@ -23,7 +19,7 @@ namespace ProjectsApp.ViewModels
         {
             ProjectEmployee = pe ?? new ProjectEmployee();
             Employees = new ObservableCollection<Employee>(App.GetService<IEmployeeService>().GetItems());
-            Projects = new ObservableCollection<Project>(App.Database.GetProjectItems());
+            Projects = new ObservableCollection<Project>(App.GetService<IProjectService>().GetItems());
 
             _selectedEmployee = Employees.FirstOrDefault(e => ProjectEmployee.EmployeeId == e.Id);
             _selectedProject = Projects.FirstOrDefault(p => ProjectEmployee.ProjectId == p.Id);
