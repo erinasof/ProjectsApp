@@ -30,7 +30,7 @@ namespace ProjectsApp.ViewModels
         public void ReloadTable()
         {
             Companies.Clear();
-            Companies.Add(companyService.GetCompanyItems().Select(x => new CompanyViewModel(x) { ListViewModel = this }));
+            Companies.Add(companyService.GetItems().Select(x => new CompanyViewModel(x) { ListViewModel = this }));
         }
 
         public CompanyViewModel SelectedCompany
@@ -67,7 +67,7 @@ namespace ProjectsApp.ViewModels
                     Companies.Add(company);
                 }
 
-                companyService.SaveCompanyItem(company.Company);
+                companyService.SaveItem(company.Company);
             }
             else
             {
@@ -82,7 +82,7 @@ namespace ProjectsApp.ViewModels
             if (companyObject is CompanyViewModel company)
             {
                 Companies.Remove(company);
-                companyService.DeleteCompanyItem(company.Company);
+                companyService.DeleteItem(company.Company);
             }
             Back();
         }

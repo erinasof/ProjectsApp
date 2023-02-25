@@ -53,10 +53,11 @@ namespace ProjectsApp
 
             // Add core services
             services.AddSingleton<ICompanyService, CompanyService>();
-            
+            services.AddSingleton<IEmployeeService, EmployeeService>();
+
             // Add core repositories
-            services.AddSingleton<CompanyRepository>();
-            services.AddSingleton<EmployeeRepository>();
+            services.AddSingleton<CompanyRepo>();
+            services.AddSingleton<EmployeeRepo>();
 
             ServiceProvider = services.BuildServiceProvider();
         }

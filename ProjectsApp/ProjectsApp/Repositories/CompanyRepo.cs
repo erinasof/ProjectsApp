@@ -3,9 +3,9 @@ using ProjectsApp.Services;
 
 namespace ProjectsApp.Repositories.Impl
 {
-    class EmployeeRepository : GenericRepo<Employee, int>
+    public class CompanyRepo : GenericRepo<Company, int>
     {
-        public EmployeeRepository(ISQLiteService db) : base(db)
+        public CompanyRepo(ISQLiteService db) : base(db)
         {
         }
     }

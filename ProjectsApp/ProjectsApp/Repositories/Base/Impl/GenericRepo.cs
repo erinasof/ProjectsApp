@@ -12,7 +12,8 @@ namespace ProjectsApp.Repositories.Impl
         public GenericRepo(ISQLiteService db)
         {
             dbConnect = db.GetConnection(App.DATABASE_NAME);
-            dbConnect.CreateTable<Company>();
+            dbConnect.CreateCommand("PRAGMA foreign_keys = ON;").ExecuteNonQuery();
+            dbConnect.CreateTables<Company, Employee, Project, ProjectEmployee>();
         }
 
         public void Add(T entity)

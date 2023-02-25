@@ -10,39 +10,7 @@ namespace ProjectsApp.Repositories
         public GenericRepository(string databasePath)
         {
             database = new SQLiteConnection(databasePath);
-            database.CreateCommand("PRAGMA foreign_keys = ON;").ExecuteNonQuery();
-            database.CreateTable<Company>();
-            database.CreateTable<Employee>();
-            database.CreateTable<Project>();
-            database.CreateTable<ProjectEmployee>();
         }
-
-        #region employee
-        public IEnumerable<Employee> GetEmployeeItems()
-        {
-            return database.Table<Employee>().ToList();
-        }
-        public Employee GetEmployeeItem(int id)
-        {
-            return database.Get<Employee>(id);
-        }
-        public int DeleteEmployeeItem(int id)
-        {
-            return database.Delete<Employee>(id);
-        }
-        public int SaveEmployeeItem(Employee item)
-        {
-            if (item.Id != 0)
-            {
-                database.Update(item);
-                return item.Id;
-            }
-            else
-            {
-                return database.Insert(item);
-            }
-        }
-        #endregion employee
 
         #region project
         public IEnumerable<Project> GetProjectItems()

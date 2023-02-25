@@ -3,7 +3,6 @@ using ProjectsApp.Services;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace ProjectsApp.ViewModels
 {
@@ -22,13 +21,16 @@ namespace ProjectsApp.ViewModels
         public ProjectViewModel(Project project = null)
         {
             Project = project ?? new Project();
-            Employees = new ObservableCollection<Employee>(App.Database.GetEmployeeItems());
-            Companies = new ObservableCollection<Company>(App.GetService<ICompanyService>().GetCompanyItems());
-
+            
+            IEmployeeService employeeService = App.GetService<IEmployeeService>();
+            Employees = new ObservableCollection<Employee>(employeeService.GetItems());
+            
             var empIds = App.Database.GetProjectEmployeeItems().Where(pe => pe.ProjectId == Project.Id).Select(pe => pe.EmployeeId);
-
+            
             EmployeesOfProject = new ObservableCollection<Employee>(
-                App.Database.GetEmployeeItems().Where(employee => empIds.Contains(employee.Id)));
+                employeeService.GetItems().Where(employee => empIds.Contains(employee.Id)));
+
+            Companies = new ObservableCollection<Company>(App.GetService<ICompanyService>().GetItems());
 
             _selectedEmployee = Employees.FirstOrDefault(e => Project.HeadId == e.Id);
             _selectedExecutorCompany = Companies.FirstOrDefault(e => Project.ExecutorCompanyId == e.Id);

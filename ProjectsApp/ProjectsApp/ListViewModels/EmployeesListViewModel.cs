@@ -1,4 +1,5 @@
-﻿using ProjectsApp.Views;
+﻿using ProjectsApp.Services;
+using ProjectsApp.Views;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -12,8 +13,11 @@ namespace ProjectsApp.ViewModels
 
         private EmployeeViewModel selectedEmployee;
 
+        private readonly IEmployeeService employeeService;
+
         public EmployeesListViewModel()
         {
+            employeeService = App.GetService<IEmployeeService>();
             Employees = new ObservableCollection<EmployeeViewModel>();
             ReloadTable();
             CreateCommand = new Command(CreateEmployee);
@@ -41,7 +45,7 @@ namespace ProjectsApp.ViewModels
         public void ReloadTable()
         {
             Employees.Clear();
-            Employees.Add(App.Database.GetEmployeeItems().Select(x => new EmployeeViewModel(x) { ListViewModel = this }));
+            Employees.Add(employeeService.GetItems().Select(x => new EmployeeViewModel(x) { ListViewModel = this }));
         }
 
         private void CreateEmployee()
@@ -62,7 +66,7 @@ namespace ProjectsApp.ViewModels
                 {
                     Employees.Add(employee);
                 }
-                App.Database.SaveEmployeeItem(employee.Employee);
+                employeeService.SaveItem(employee.Employee);
             }
             else
             {
@@ -76,7 +80,7 @@ namespace ProjectsApp.ViewModels
             if (employeeObject is EmployeeViewModel employee)
             {
                 Employees.Remove(employee);
-                App.Database.DeleteEmployeeItem(employee.Id);
+                employeeService.DeleteItem(employee.Employee);
             }
             Back();
         }
