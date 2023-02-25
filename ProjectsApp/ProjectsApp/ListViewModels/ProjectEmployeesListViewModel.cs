@@ -1,5 +1,5 @@
-﻿using ProjectsApp.Views;
-using System;
+﻿using ProjectsApp.Services;
+using ProjectsApp.Views;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Xamarin.Forms;
@@ -12,8 +12,11 @@ namespace ProjectsApp.ViewModels
 
         public ObservableCollection<ProjectEmployeeViewModel> ProjectEmployees { get; set; }
 
+        private IProjectEmployeeService projectEmployeeService;
+
         public ProjectEmployeesListViewModel()
         {
+            projectEmployeeService = App.GetService<IProjectEmployeeService>();
             ProjectEmployees = new ObservableCollection<ProjectEmployeeViewModel>();
             ReloadTable();
             CreateCommand = new Command(CreateProjectEmployee);
@@ -26,7 +29,7 @@ namespace ProjectsApp.ViewModels
         private void ReloadTable()
         {
             ProjectEmployees.Clear();
-            ProjectEmployees.Add(App.Database.GetProjectEmployeeItems().Select(x => new ProjectEmployeeViewModel(x) { ListViewModel = this }));
+            ProjectEmployees.Add(projectEmployeeService.GetItems().Select(x => new ProjectEmployeeViewModel(x) { ListViewModel = this }));
         }
 
         public ProjectEmployeeViewModel SelectedProjectEmployee
@@ -62,7 +65,7 @@ namespace ProjectsApp.ViewModels
                 {
                     ProjectEmployees.Add(projectEmployee);
                 }
-                App.Database.SaveProjectEmployeeItem(projectEmployee.ProjectEmployee);
+                projectEmployeeService.SaveItem(projectEmployee.ProjectEmployee);
             }
             else
             {
@@ -77,7 +80,7 @@ namespace ProjectsApp.ViewModels
             if (projectEmployeeObject is ProjectEmployeeViewModel projectEmployee)
             {
                 ProjectEmployees.Remove(projectEmployee);
-                App.Database.DeleteProjectEmployeeItem(projectEmployee.Id);
+                projectEmployeeService.DeleteItem(projectEmployee.ProjectEmployee);
             }
 
             Back();

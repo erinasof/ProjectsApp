@@ -43,28 +43,25 @@ namespace ProjectsApp
 
         void SetupServices(Action<IServiceCollection> addPlatformServices = null)
         {            
-            //DependencyService.Get<ISQLiteService>().GetConnectionWithCreateDatabase();
             var services = new ServiceCollection();
 
             // Add platform specific services
             addPlatformServices?.Invoke(services);
 
-            services.AddTransient<CompaniesListViewModel>();
-
             // Add core services
             services.AddSingleton<ICompanyService, CompanyService>();
             services.AddSingleton<IEmployeeService, EmployeeService>();
+            services.AddSingleton<IProjectService, ProjectService>();
+            services.AddSingleton<IProjectEmployeeService, ProjectEmployeeService>();
 
             // Add core repositories
             services.AddSingleton<CompanyRepo>();
             services.AddSingleton<EmployeeRepo>();
+            services.AddSingleton<ProjectRepo>();
+            services.AddSingleton<ProjectEmployeeRepo>();
 
             ServiceProvider = services.BuildServiceProvider();
         }
-
-        public static BaseViewModel GetViewModel<TViewModel>()
-           where TViewModel : BaseViewModel => ServiceProvider.GetService<TViewModel>();
-
 
         public static T GetService<T>()
         {

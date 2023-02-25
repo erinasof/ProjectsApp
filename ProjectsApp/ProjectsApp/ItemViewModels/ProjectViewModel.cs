@@ -25,7 +25,7 @@ namespace ProjectsApp.ViewModels
             IEmployeeService employeeService = App.GetService<IEmployeeService>();
             Employees = new ObservableCollection<Employee>(employeeService.GetItems());
             
-            var empIds = App.Database.GetProjectEmployeeItems().Where(pe => pe.ProjectId == Project.Id).Select(pe => pe.EmployeeId);
+            var empIds = App.GetService<IProjectEmployeeService>().GetItems().Where(pe => pe.ProjectId == Project.Id).Select(pe => pe.EmployeeId);
             
             EmployeesOfProject = new ObservableCollection<Employee>(
                 employeeService.GetItems().Where(employee => empIds.Contains(employee.Id)));

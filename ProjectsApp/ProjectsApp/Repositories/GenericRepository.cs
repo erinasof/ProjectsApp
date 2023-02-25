@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using ProjectsApp.Models;
-using SQLite;
+﻿using SQLite;
 
 namespace ProjectsApp.Repositories
 {
@@ -11,32 +9,5 @@ namespace ProjectsApp.Repositories
         {
             database = new SQLiteConnection(databasePath);
         }
-
-        #region projectemployee
-        public IEnumerable<ProjectEmployee> GetProjectEmployeeItems()
-        {
-            return database.Table<ProjectEmployee>().ToList();
-        }
-        public ProjectEmployee GetProjectEmployeeItem(int id)
-        {
-            return database.Get<ProjectEmployee>(id);
-        }
-        public int DeleteProjectEmployeeItem(int id)
-        {
-            return database.Delete<ProjectEmployee>(id);
-        }
-        public int SaveProjectEmployeeItem(ProjectEmployee item)
-        {
-            if (item.Id != 0)
-            {
-                database.Update(item);
-                return item.Id;
-            }
-            else
-            {
-                return database.Insert(item);
-            }
-        }
-        #endregion projectemployee
     }
 }
