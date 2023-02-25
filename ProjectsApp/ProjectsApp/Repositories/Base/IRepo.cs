@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ProjectsApp.Repositories
 {
-    public interface IRepository<T, TKey> where T : PKEntity<TKey>
+    public interface IRepo<T, TKey> where T : PKEntity<TKey>
     {
         #region Methods
         T GetOne(TKey id);

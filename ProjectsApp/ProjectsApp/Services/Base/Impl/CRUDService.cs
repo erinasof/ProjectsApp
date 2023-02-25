@@ -7,9 +7,9 @@ namespace ProjectsApp.Services.Impl
     public abstract class CRUDService<T, TKey> : ICRUDService<T, TKey> where T : PKEntity<TKey>
     {
 
-        private readonly IRepository<T, TKey> repository;
+        private readonly IRepo<T, TKey> repository;
 
-        public CRUDService(IRepository<T, TKey> repository)
+        public CRUDService(IRepo<T, TKey> repository)
         {
             this.repository = repository;
         }

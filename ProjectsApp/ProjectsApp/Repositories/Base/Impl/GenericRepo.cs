@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace ProjectsApp.Repositories.Impl
 {
-    public abstract class GenericRepo<T, TKey> : IRepository<T, TKey> where T : PKEntity<TKey>, new()
+    public abstract class GenericRepo<T, TKey> : IRepo<T, TKey> where T : PKEntity<TKey>, new()
     {
         private readonly SQLiteConnection dbConnect;
 
